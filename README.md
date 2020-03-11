@@ -1,2 +1,2 @@
 # tetris-central
-Web-App Student project using socket.io
+Student Web-App project using socket.io
