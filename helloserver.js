@@ -3,4 +3,4 @@ var server = require('http').createServer( function(req, res) {
   res.end("hello, world\n");
   console.log("Hello");
 });
-server.listen(8080);
+server.listen(process.env.PORT || 5000);
