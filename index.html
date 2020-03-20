@@ -10,9 +10,10 @@
     let socket = io();
     let el;
     let button;
+    
     button = document.getElementById("button");
     button.addEventListener("click", function(){
-      io.emit('click','Bouton cliqué');
+     socket.emit('click','Bouton cliqué');
     });
 
     socket.on('time', (timeString) => {
