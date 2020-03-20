@@ -1,17 +1,23 @@
 <html>
   <head>
-    <script src="/socket.io/socket.io.js"></script>
-    <script>
-      let socket = io();
-      let el;
-
-      socket.on('time', (timeString) => {
-        el = document.getElementById('server-time');
-        el.innerHTML = 'Server time: ' + timeString;
-      });
-    </script>
   </head>
   <body>
     <p id="server-time"></p>
+    <button id="button">Press</button>
   </body>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    let socket = io();
+    let el;
+    let button;
+    button = document.getElementById("button");
+    button.addEventListener("click", function(){
+      io.emit('click','Bouton cliqué');
+    });
+
+    socket.on('time', (timeString) => {
+      el = document.getElementById('server-time');
+      el.innerHTML = 'Server time: ' + timeString;
+    });
+  </script>
 </html>
