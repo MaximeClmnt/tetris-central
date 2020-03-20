@@ -2,7 +2,7 @@
   "name": "example",
   "version": "1.0.0",
   "description": "This example is cool",
-  "main": "helloserver.js",
+  "main": "testsocket.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
