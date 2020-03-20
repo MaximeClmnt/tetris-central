@@ -14,9 +14,9 @@ const io = socketIO(server);
 
 io.on('connection', (socket) => {
   console.log('Client connected');
+  socket.on('click',(val) => consol.log(val));
   socket.on('disconnect', () => console.log('Client disconnected'));
 });
 
-io.on('click',(val) => consol.log(val));
 
 setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
