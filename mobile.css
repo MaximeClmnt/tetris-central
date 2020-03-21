@@ -4,16 +4,14 @@ html, body, #app {
 }
 
 body {
-  background-color: black;
-  background-image: url("tetris-backgroung.jpg");
+	background-color: black;
+	background-image: url("tetris-backgroung.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+	background-position: center bottom;
 
-    
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-position: center bottom;
-  
-  font-family: Lucida Console,Verdana,Arial;
-  margin:0;
+	font-family: Lucida Console,Verdana,Arial;
+	margin:0;
 }
 #app{
 	display: flex;
@@ -49,4 +47,55 @@ body {
 	margin: 50px 0px;
 	padding: 20px 50px;
 	border-radius: 15px;
+}
+
+#control-container {
+	margin: 0 auto;
+	margin-bottom: 50%;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+}
+
+.rotate-buttons-container{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly
+}
+.rotate-buttons-item{
+	padding: 10px;
+}
+.rotate-button{
+	width: 45vw;
+	height: 25vw;
+    font-size: 80px;
+	border-radius: 30px;
+	margin-bottom: 20px;
+}
+.translate-buttons-container{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly
+}
+.translate-buttons-item{
+	padding: 10px;
+}
+.translate-button{
+	width: 45vw;
+	height: 25vw;
+    font-size: 80px;
+	border-radius: 30px;
+	margin-bottom: 20px;
+}
+.fall-button-container{
+
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly
+}
+.fall-button{
+	width: 95vw;
+	height: 20vw;
+	border-radius: 30px;
+	margin-bottom: 100px;
 }
