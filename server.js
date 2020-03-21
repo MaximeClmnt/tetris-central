@@ -10,7 +10,9 @@ const app = express();
 app.use((req, res) => res.sendFile(INDEX, { root: __dirname }));
 app.use(express.static(__dirname));
 app.get('/',function (req, res) {
-  res.sendFile(req.path,{root: __dirname });
+  var responseText = 'Hello World!';
+  responseText += 'Requested at: ' + req.path + '';
+  res.send(responseText);
 });
 const server =  app.listen(PORT, () => console.log(`Listening on ${PORT}`));
 
