@@ -8,6 +8,10 @@ const INDEX = '/index.html';
 
 const app = express();
 app.use((req, res) => res.sendFile(INDEX, { root: __dirname }));
+app.use(express.static(__dirname));
+app.get('/',function (req, res) {
+  res.sendFile(req.path,{root: __dirname });
+});
 const server =  app.listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 const io = socketIO(server);
