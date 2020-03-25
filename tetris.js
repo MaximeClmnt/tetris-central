@@ -95,3 +95,161 @@ Piece.prototype.draw = function(){
 Piece.prototype.unDraw = function(){
     this.fill(VACANT);
 }
+
+// Déplacer la pièce vers le bas
+
+Piece.prototype.moveDown = function(){
+    if(!this.collision(0,1,this.activeforme)){
+        this.unDraw();
+        this.y++;
+        this.draw();
+    }else{
+        // On bloque la pièce et on en génère une nouvelle
+        this.lock();				
+        p = randomPiece();
+    }
+    
+}
+
+// Déplacer la pièce vers la droite
+Piece.prototype.moveRight = function(){
+    if(!this.collision(1,0,this.activeforme)){
+        this.unDraw();
+        this.x++;
+        this.draw();
+    }
+}
+
+// Déplacer la pièce vers la gauche
+Piece.prototype.moveLeft = function(){
+    if(!this.collision(-1,0,this.activeforme)){
+        this.unDraw();
+        this.x--;
+        this.draw();
+    }
+}
+
+// Pivoter la pièce de 90°
+Piece.prototype.rotate = function(){
+    let nextPattern = this.forme[(this.formeN + 1)%this.forme.length]; // On choisit la rotation de +1 dans le tableau des formes.
+    let kick = 0;
+    
+    if(this.collision(0,0,nextPattern)){		// Collision avec la prochaine rotation de la pièce sur un mur ? (forme en I, J, L, Z, rotation non centré).
+        if(this.x > COL/2){
+            // mur de droite
+            kick = -1; // on décale la pièce d'une case sur la gauche
+        }else{
+            // mur de gauche
+            kick = 1; // on décale la pièce vers la gauche
+        }
+    }
+    
+    if(!this.collision(kick,0,nextPattern)){		// s'il n'y a plus de collision on dessine la pièce.
+        this.unDraw();
+        this.x += kick;
+        this.formeN = (this.formeN + 1)%this.forme.length; // (0+1)%4 => 1
+        this.activeforme = this.forme[this.formeN];
+        this.draw();
+    }
+}
+
+let score = 0;
+
+Piece.prototype.lock = function(){
+    for( r = 0; r < this.activeforme.length; r++){
+        for(c = 0; c < this.activeforme.length; c++){
+            // we skip the vacant squares
+            if( !this.activeforme[r][c]){
+                continue;
+            }
+            // Si la pièce est bloqué en haut du canvas : game over
+            if(this.y + r < 0){
+                alert("Game Over");
+                // stop request animation frame
+                gameOver = true;
+                break;
+            }
+            // on bloque la pièce
+            board[this.y+r][this.x+c] = this.color;
+        }
+    }
+    // enlever les lignes remplies
+    for(r = 0; r < ROW; r++){
+        let isRowFull = true;
+        for( c = 0; c < COL; c++){
+            isRowFull = isRowFull && (board[r][c] != VACANT);
+        }
+        if(isRowFull){
+            // Si la ligne est remplie
+            // on descend vers le bas toutes les lignes du dessus
+            for( y = r; y > 1; y--){
+                for( c = 0; c < COL; c++){
+                    board[y][c] = board[y-1][c];
+                }
+            }
+            // La ligne du dessus n'as plus de case, on les redessine
+            for( c = 0; c < COL; c++){
+                board[0][c] = VACANT;
+            }
+            // on augmente le score du joueur
+            score += 10;
+        }
+    }
+    // on met à jour le tableau
+    drawBoard();
+    
+    // on mets à jour le score sur la page
+    scoreElement.innerHTML = score;
+}
+
+// Fonction de collision
+
+Piece.prototype.collision = function(x,y,piece){
+    for( r = 0; r < piece.length; r++){
+        for(c = 0; c < piece.length; c++){
+            // si la case est vide on passe
+            if(!piece[r][c]){
+                continue;
+            }
+			
+            // coordonnées de la pièce après le mouvement
+            let newX = this.x + c + x;
+            let newY = this.y + r + y;
+            
+            // condition
+            if(newX < 0 || newX >= COL || newY >= ROW){
+                return true;		// il y a une colision
+            }
+            // case au dessus du jeu,n pas de problème on vérifie sur les case d'après.
+            if(newY < 0){
+                continue;
+            }
+            // On vérifie s'il y a pas une pièce déjà bloqué à cette endroit là
+            if( board[newY][newX] != VACANT){
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+// Contrôle de la pièce
+
+document.addEventListener("keydown",CONTROL);			// à chaque touche appuyé sur le clavier (keydown) appelle la fonction CONTROL
+
+// Fonction  de controle
+function CONTROL(event){			
+    if(event.keyCode == 37){
+        p.moveLeft();
+        dropStart = Date.now();
+    }else if(event.keyCode == 38){
+        p.rotate();
+        dropStart = Date.now();
+    }else if(event.keyCode == 39){
+        p.moveRight();
+        dropStart = Date.now();
+    }else if(event.keyCode == 40){
+        p.moveDown();
+    }
+}
+
