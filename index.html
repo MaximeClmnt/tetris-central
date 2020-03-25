@@ -1,22 +1,47 @@
 <html>
   <head>
+    <title>Tetris Centrale Lyon </title>
+    <style>
+        #score{
+            display: inline-block;
+        }
+		
+		#score_adversaire{
+            display: inline-block;
+        }
+		
+		
+		#joueur { position:absolute; top: 100px; left: 500px;}
+		
+		#challenger{ position:absolute; top: 100px; right: 500px;}
+		
+        canvas{
+            display: block;
+            margin:0 auto;
+        }
+		
+		
+		
+    </style>
   </head>
   <body>
     <p id="server-time"></p>
     <button id="button">Press</button>
     
-    <!-- canvas d'un tetris -->
-    
-    <div style="text-align:center;">
-    <canvas id="tetris" width="200" height="400"></canvas>
-    <p> Score : <div id="score">0</div> </p>
-    </div>
-  
-  <!-- deuxième canvas à mettre quand le jeu solo marchera déjà -->
-  
-    <script src="forme_tetris.js"></script>
-    <script src="tetris.js"></script>
-
+	  <div id = "joueur" > Vous : 
+    <canvas id="tetris" width="200" height="400">
+	
+	
+	  </canvas>
+	  Score : <div id="score">0</div>
+	  </div>
+	
+	  <div id ="challenger" > Joueur adverse : 
+    <canvas id="adversaire" width="200" height="400">
+	  </canvas>
+	  
+    Score : <div id="score_adversaire">0</div>
+	  </div>
     
     
   </body>
@@ -36,4 +61,9 @@
       el.innerHTML = 'Server time: ' + timeString;
     });
   </script>
+  
+  <script src="forme_tetris.js"></script>
+  <script src="tetris.js"></script>
+	<script src="adversaire.js"></script>
+  <script src="jeu.js"></script>
 </html>
