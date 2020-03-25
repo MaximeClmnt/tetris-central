@@ -2,6 +2,8 @@
 
 // Descendre la pièce toutes les 1 secondes.
 
+var player = document.querySelector('#audioPlayer');
+player.play();
 let dropStart = Date.now();
 let gameOver = false;
 
