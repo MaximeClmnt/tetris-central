@@ -11,14 +11,16 @@
 			<div id='title-container'>
 				<h1 id='text-bienvenue'>Tétris</h1>
 			</div>
-			<div id='select-container'>
+			<div id='container' class='container-class'>
 				<div class='select-item'>
-					<button class='select' id='select-j1'>Joueur 1</button>
+					<button class='select' id='select-j1' onclick="setjoueur(1)">Joueur 1</button>
 				</div>
 				<div class='select-item'>
-					<button class='select' id='select-j2'>Joueur 2</button>
+					<button class='select' id='select-j2' onclick="setjoueur(2)">Joueur 2</button>
 				</div>
 			</div>
 		</div>
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="mobile.js"></script>
 	</body>
 </html>
