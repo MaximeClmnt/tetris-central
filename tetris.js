@@ -1,14 +1,30 @@
-const cvs = document.getElementById("tetris");		// le canvas du jeu
-const ctx = cvs.getContext("2d");	
-const scoreElement = document.getElementById("score");	// affichage du score du joueur
+const cvs_j1 = document.getElementById("canvas_j1");		// le canvas du jeu
+const ctx_j1 = cvs_j1.getContext("2d");	
+const scoreElement_j1 = document.getElementById("score_j1");	// affichage du score du joueur
+
+const cvs_j2 = document.getElementById("canvas_j2");		// le canvas du jeu
+const ctx_j2 = cvs_j2.getContext("2d");	
+const scoreElement_j2 = document.getElementById("score_j2");	// affichage du score du joueur
 
 const ROW = 20; // Nombre de carré en hauteur
 const COL = 10; // Nombre de carré en largeur
 const SQ = 20; // taille d'une case(= carré). 
 const VACANT = "WHITE"; // couleur d'un carré vide.
 
+
+var seed1 = Math.floor(Math.random()*10000);
+var seed2 = seed1;
+function random1() {
+    var x = Math.sin(seed1++) * 10000;
+    return x - Math.floor(x);
+}
+function random2() {
+    var x = Math.sin(seed2++) * 10000;
+    return x - Math.floor(x);
+}
+
 // Désinne un carré
-function drawSquare(x,y,color){
+function drawSquare(x,y,color,ctx){
     ctx.fillStyle = color;
     ctx.fillRect(x*SQ,y*SQ,SQ,SQ);			// desinne un carré de couleur color
     ctx.strokeStyle = "BLACK";
@@ -17,25 +33,43 @@ function drawSquare(x,y,color){
 
 // créer les cases du jeu
 
-let board = [];
+let board_1 = [];
+let board_2 = [];
 for( r = 0; r <ROW; r++){
-    board[r] = [];
+    board_1[r] = [];
+    board_2[r] = [];
     for(c = 0; c < COL; c++){
-        board[r][c] = VACANT;
+        board_1[r][c] = VACANT;
+        board_2[r][c] = VACANT;
     }
 }
 
 // désinne les casse du jeu.
-function drawBoard(){
+function drawBoard(joueur){
+	if(joueur==1){
+		for( r = 0; r <ROW; r++){
+			for(c = 0; c < COL; c++){
+				drawSquare(c,r,board_1[r][c],ctx_j1);
+			}
+		}
+	}
+	else{
+		for( r = 0; r <ROW; r++){
+			for(c = 0; c < COL; c++){
+				drawSquare(c,r,board_2[r][c],ctx_j2);
+			}
+		}
+	}
+}
+function drawBoards(){
     for( r = 0; r <ROW; r++){
         for(c = 0; c < COL; c++){
-            drawSquare(c,r,board[r][c]);
+            drawSquare(c,r,board_1[r][c],ctx_j1);
+            drawSquare(c,r,board_2[r][c],ctx_j2);
         }
     }
 }
-
-drawBoard();
-
+drawBoards();
 
 // Les pièces et leur couleur
 
@@ -51,16 +85,34 @@ const PIECES = [
 
 // Générer un pièce aléatoire
 
-function randomPiece(){
-    let r = randomN = Math.floor(Math.random() * PIECES.length) // 0 -> 6
-    return new Piece( PIECES[r][0],PIECES[r][1]);    // forme et couleur ex : [Z,"red"]
+function randomPiece(joueur){
+	if(joueur==1){
+		rand=random1();
+	}
+	else{
+		rand=random2();
+	}
+    let r = randomN = Math.floor(rand * PIECES.length) // 0 -> 6
+    return new Piece( PIECES[r][0],PIECES[r][1],joueur);    // forme et couleur ex : [Z,"red"]
 }
 
-let p = randomPiece();
+let p1 = randomPiece(1);
+let p2 = randomPiece(2);
 
 // L'objet pièce
 
-function Piece(forme,color){
+function Piece(forme,color,joueur){
+	this.joueur=joueur;
+	
+	if(this.joueur==1){
+		this.ctx=ctx_j1;
+		this.board=board_1;
+	}
+	else{
+		this.ctx=ctx_j2;
+		this.board=board_2;
+	}
+	
     this.forme = forme;
     this.color = color;
     
@@ -78,7 +130,7 @@ Piece.prototype.fill = function(color){
         for(c = 0; c < this.activeforme.length; c++){
             // on ne dessine que les cases remplies.
             if( this.activeforme[r][c]){		// activeforme[r][c] = 1 ou 0 ; 1 on remplit la case
-                drawSquare(this.x + c,this.y + r, color);
+                drawSquare(this.x + c,this.y + r, color,this.ctx);
             } 
         }
     }
@@ -105,8 +157,14 @@ Piece.prototype.moveDown = function(){
         this.draw();
     }else{
         // On bloque la pièce et on en génère une nouvelle
-        this.lock();				
-        p = randomPiece();
+        this.lock();		
+		
+		if(this.joueur==1){
+			p1=randomPiece(this.joueur); //Probleme possible ici
+		}
+		else{
+			p2=randomPiece(this.joueur); //Probleme possible ici
+		}
     }
     
 }
@@ -153,7 +211,8 @@ Piece.prototype.rotate = function(){
     }
 }
 
-let score = 0;
+let score_j1 = 0;
+let score_j2 = 0;
 
 Piece.prototype.lock = function(){
     for( r = 0; r < this.activeforme.length; r++){
@@ -170,36 +229,42 @@ Piece.prototype.lock = function(){
                 break;
             }
             // on bloque la pièce
-            board[this.y+r][this.x+c] = this.color;
+            this.board[this.y+r][this.x+c] = this.color;
         }
     }
     // enlever les lignes remplies
     for(r = 0; r < ROW; r++){
         let isRowFull = true;
         for( c = 0; c < COL; c++){
-            isRowFull = isRowFull && (board[r][c] != VACANT);
+            isRowFull = isRowFull && (this.board[r][c] != VACANT);
         }
         if(isRowFull){
             // Si la ligne est remplie
             // on descend vers le bas toutes les lignes du dessus
             for( y = r; y > 1; y--){
                 for( c = 0; c < COL; c++){
-                    board[y][c] = board[y-1][c];
+                    this.board[y][c] = this.board[y-1][c];
                 }
             }
             // La ligne du dessus n'as plus de case, on les redessine
             for( c = 0; c < COL; c++){
-                board[0][c] = VACANT;
+                this.board[0][c] = VACANT;
             }
             // on augmente le score du joueur
-            score += 10;
+			if(this.joueur==1){
+				score_j1 += 10;
+			}
+			else{
+				score_j2 += 10;
+			}
         }
     }
     // on met à jour le tableau
-    drawBoard();
+    drawBoard(this.joueur);
     
     // on mets à jour le score sur la page
-    scoreElement.innerHTML = score;
+    scoreElement_j1.innerHTML = score_j1;
+    scoreElement_j2.innerHTML = score_j2;
 }
 
 // Fonction de collision
@@ -225,7 +290,7 @@ Piece.prototype.collision = function(x,y,piece){
                 continue;
             }
             // On vérifie s'il y a pas une pièce déjà bloqué à cette endroit là
-            if( board[newY][newX] != VACANT){
+            if( this.board[newY][newX] != VACANT){
                 return true;
             }
         }
@@ -240,16 +305,21 @@ document.addEventListener("keydown",CONTROL);			// à chaque touche appuyé sur 
 // Fonction  de controle
 function CONTROL(event){			
     if(event.keyCode == 37){
-        p.moveLeft();
-        dropStart = Date.now();
+        p2.moveLeft();
     }else if(event.keyCode == 38){
-        p.rotate();
-        dropStart = Date.now();
+        p2.rotate();
     }else if(event.keyCode == 39){
-        p.moveRight();
-        dropStart = Date.now();
+        p2.moveRight();
     }else if(event.keyCode == 40){
-        p.moveDown();
+        p2.moveDown();
+    }else if(event.keyCode == 81){
+        p1.moveLeft();
+    }else if(event.keyCode == 90){
+        p1.rotate();
+    }else if(event.keyCode == 68){
+        p1.moveRight();
+    }else if(event.keyCode == 83){
+        p1.moveDown();
     }
 }
 
