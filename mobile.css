@@ -3,6 +3,10 @@ html, body, #app {
     height: 100%;
 }
 
+html{
+  touch-action: manipulation;
+}
+
 body {
 	background-color: black;
 	background-image: url("tetris-backgroung.jpg");
