@@ -11,6 +11,8 @@ const COL = 10; // Nombre de carré en largeur
 const SQ = 20; // taille d'une case(= carré). 
 const VACANT = "WHITE"; // couleur d'un carré vide.
 
+let socket = io();//Etablissement de la connection socket
+
 
 var seed1 = Math.floor(Math.random()*10000);
 var seed2 = seed1;
@@ -322,4 +324,25 @@ function CONTROL(event){
         p1.moveDown();
     }
 }
+
+socket.on('move_display', (command_str) => {
+	command=JSON.parse(command_str);
+	p=[p1,p2];
+	switch(command.dir){
+		case 'left':
+			p[command.player].moveLeft();
+			break;
+		case 'down':
+			p[command.player].moveDown();
+			break;
+		case 'right':
+			p[command.player].moveRight();
+			break;
+		case 'rotate':
+			p[command.player].rotate();
+			break;
+	}
+	el = document.getElementById('server-time');
+	el.innerHTML = 'Server time: ' + timeString;
+});
 
