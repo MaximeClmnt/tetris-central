@@ -4,7 +4,7 @@ let socket = io();
 joueur=0;
 function setjoueur(n){
 	joueur=n;
-	cont.innerHTML="<div class='rotate-buttons-container'><div class='rotate-buttons-item'><button class='rotate-button' id='rotate' onclick='rotate()'>R</button></div></div></div><div class='translate-buttons-container'><div class='translate-buttons-item'><button class='translate-button' id='translate-left' onclick='moveLeft()'><=</button></div><div class='translate-buttons-item'><button class='translate-button' id='translate-right' onclick='moveRight()'>=></button></div></div><div class='fall-button-container'><div class='fall-button-item'><button class='fall-button' id='fall' onclick='moveDown()'>\/</button></div></div>"
+	cont.innerHTML="<div class='rotate-buttons-container'><div class='rotate-buttons-item'><button class='rotate-button' id='rotate' onclick='rotate()'>Rotate</button></div></div></div><div class='translate-buttons-container'><div class='translate-buttons-item'><button class='translate-button' id='translate-left' onclick='moveLeft()'>Left</button></div><div class='translate-buttons-item'><button class='translate-button' id='translate-right' onclick='moveRight()'>Right</button></div></div><div class='fall-button-container'><div class='fall-button-item'><button class='fall-button' id='fall' onclick='moveDown()'>Fall</button></div></div>"
 }
 
 function moveLeft(){
