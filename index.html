@@ -1,70 +1,31 @@
 <html>
   <head>
     <title>Tetris Centrale Lyon </title>
-    <style>
-        #score{
-            display: inline-block;
-        }
-		
-	#score_adversaire{
-            display: inline-block;
-        }
-		
-		
-	#joueur { position:absolute; top: 100px; left: 500px;}
-		
-	#challenger{ position:absolute; top: 100px; right: 500px;}
-		
-        canvas{
-            display: block;
-            margin:0 auto;
-        }
-		
-		
-		
-    </style>
+	<link rel = "stylesheet"
+	   type = "text/css"
+	   href = "index.css" />
   </head>
   <body>
 	<audio id="audioPlayer" src="song.mp3"></audio>
-    <p id="server-time"></p>
-    <button id="button">Press</button>
-    
-	  <div id = "joueur" > Vous : 
-    <canvas id="tetris" width="200" height="400">
-	
-	
-	  </canvas>
-	  Score : <div id="score">0</div>
-	  </div>
-	
-	  <div id ="challenger" > Joueur adverse : 
-    <canvas id="adversaire" width="200" height="400">
-	  </canvas>
-	  
-    Score : <div id="score_adversaire">0</div>
-	  </div>
+    <div class="container">
+		<div id = "div_j1" class="board">
+			<h1>Joueur 1</h1>
+			<canvas id="canvas_j1" width='200' height='400'>
+			</canvas>
+			<h2>Score : <span id="score_j1" class="score">0</span><h2>
+		</div>
+		
+		<div id ="div_j2" class="board">
+			<h1>Joueur 2</h1>
+			<canvas id="canvas_j2" width='200' height='400'>
+			</canvas>
+			<h2>Score : <span id="score_j2" class="score">0</span><h2>
+		</div>
+	</div>
     
     
   </body>
-  <script src="/socket.io/socket.io.js"></script>
-  <script>
-    let socket = io();
-    let el;
-    let button;
-    
-    button = document.getElementById("button");
-    button.addEventListener("click", function(){
-     socket.emit('click','Bouton cliqué');
-    });
-
-    socket.on('time', (timeString) => {
-      el = document.getElementById('server-time');
-      el.innerHTML = 'Server time: ' + timeString;
-    });
-  </script>
-  
   <script src="forme_tetris.js"></script>
   <script src="tetris.js"></script>
-	<script src="adversaire.js"></script>
   <script src="jeu.js"></script>
 </html>
