@@ -330,16 +330,16 @@ socket.on('move_display', (command_str) => {
 	p=[p1,p2];
 	switch(command.dir){
 		case 'left':
-			p[command.player].moveLeft();
+			p[command.player-1].moveLeft();
 			break;
 		case 'down':
-			p[command.player].moveDown();
+			p[command.player-1].moveDown();
 			break;
 		case 'right':
-			p[command.player].moveRight();
+			p[command.player-1].moveRight();
 			break;
 		case 'rotate':
-			p[command.player].rotate();
+			p[command.player-1].rotate();
 			break;
 	}
 	el = document.getElementById('server-time');
