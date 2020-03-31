@@ -2,7 +2,6 @@ html, body, #app {
     min-height: 100% !important;
     height: 100%;
 }
-
 html{
   touch-action: manipulation;
 }
@@ -90,8 +89,9 @@ body {
 	justify-content: space-evenly
 }
 .fall-button{
-	width: 95vw;
-	height: 20vw;
+	width: 45vw;
+	height: 25vw;
+    font-size: 80px;
 	border-radius: 30px;
-	margin-bottom: 100px;
+	margin-bottom: 20px;
 }
