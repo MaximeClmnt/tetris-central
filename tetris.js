@@ -342,7 +342,5 @@ socket.on('move_display', (command_str) => {
 			p[command.player-1].rotate();
 			break;
 	}
-	el = document.getElementById('server-time');
-	el.innerHTML = 'Server time: ' + timeString;
 });
 
