@@ -21,6 +21,7 @@ const io = socketIO(server);
 io.on('connection', (socket) => {
   console.log('Client connected');
   socket.on('click',(val) => console.log(val));
+  socket.on('move_commande',(val) => {io.emit('move_display',val);console.log(val);});
   socket.on('disconnect', () => console.log('Client disconnected'));
 });
 
