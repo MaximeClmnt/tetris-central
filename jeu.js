@@ -11,13 +11,15 @@ function drop(){
     let now = Date.now();
     let delta = now - dropStart;
     if(delta > 1000){
-        p.moveDown();			// envoyer les informations du tableau au serveur ici ! 
+        p1.moveDown();			// envoyer les informations du tableau au serveur ici ! 
+        p2.moveDown();			// envoyer les informations du tableau au serveur ici ! 
         dropStart = Date.now();
-		drawBoard_adversaire(); // récupérer les informations du tableau adverse sur le serveur ici ! 
+		//drawBoard_adversaire(); // récupérer les informations du tableau adverse sur le serveur ici ! 
     }
     if( !gameOver){
         requestAnimationFrame(drop);
     }
 }
 
+console.log('drop');
 drop();

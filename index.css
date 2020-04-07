@@ -1,0 +1,22 @@
+body {
+	font-family: Lucida Console,Verdana,Arial;
+	margin:0;
+}
+
+.container{
+	display: flex;
+	justify-content: space-evenly;
+	flex-direction: row;
+}
+.board{
+	text-align: center;
+}
+	
+canvas{
+	width: 200;
+	height: 400;
+	margin:0 auto;
+}
+.score{
+	display: inline-block;
+}

@@ -2,6 +2,9 @@ html, body, #app {
     min-height: 100% !important;
     height: 100%;
 }
+html{
+  touch-action: manipulation;
+}
 
 body {
 	background-color: black;
@@ -29,7 +32,7 @@ body {
 	color: white;
 }
 
-#select-container {
+.container-class {
 	margin: 0 auto;
 	margin-bottom: 50%;
 	text-align: center;
@@ -47,14 +50,6 @@ body {
 	margin: 50px 0px;
 	padding: 20px 50px;
 	border-radius: 15px;
-}
-
-#control-container {
-	margin: 0 auto;
-	margin-bottom: 50%;
-	text-align: center;
-	display: flex;
-	flex-direction: column;
 }
 
 .rotate-buttons-container{
@@ -94,8 +89,9 @@ body {
 	justify-content: space-evenly
 }
 .fall-button{
-	width: 95vw;
-	height: 20vw;
+	width: 45vw;
+	height: 25vw;
+    font-size: 80px;
 	border-radius: 30px;
-	margin-bottom: 100px;
+	margin-bottom: 20px;
 }
